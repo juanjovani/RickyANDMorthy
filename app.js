@@ -55,7 +55,7 @@ const creaCard=(personaje)=>{
     <a href="#" class="btn btn-primary"
       data-bs-toggle="modal" 
     data-bs-target="#exampleModal"
-    data id="${personaje.id}">Ver mas</a>
+    data-id="${personaje.id}">Ver mas</a>
     
   </div>
 </div>
@@ -75,8 +75,29 @@ const navegacion=(e)=>{
 const loadInfo=(e)=>{
     e.preventDefault();
     if(e.target.classList.contains('btn')){
-        console.log('Hi!')
+        const modalContent=document.querySelector('.modal-body');
+        modalContent.removeChild(modalContent.firstChild);
+        modalContent.appendChild(spinner());
+        setTimeout(()=>{
+            modalContent.removeChild(modalContent.firstChild);
+            const content=document.createElement('div');
+            const id=e.target.getAttribute('data-id');
+            content.innerHTML=`<h2>Id ${id}</h2>`;
+        modalContent.appendChild(content);
+        }, 3000);
     }
+}
+
+const spinner=()=>{
+    const div=document.createElement('div');
+    const html=
+    `<div class="d-flex justify-content-center">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>`;
+  div.innerHTML= html;
+  return div;
 }
 document.querySelector('#botones').addEventListener('click', navegacion);
 document.querySelector('#characters').addEventListener('click', loadInfo);
