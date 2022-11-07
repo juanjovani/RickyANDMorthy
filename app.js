@@ -70,7 +70,28 @@ const navegacion=(e)=>{
         loadData(urlBase, id);
     }
 }
+const modalBody=(personaje)=>{
+    const div=document.createElement('div');
+    div.classList.add('text-center');
+    let html=``;
+    html +=`<img src="${personaje.image}" class="thumbnail">`;
+    html +=`<p>${personaje.status}-${personaje.species}</p>`;
+    html +=`<p>Ultima ubicacion conocida</p><p>${personaje.origin.name}</p>`;
+    html +=`<p>Ha aparecido en ${personaje.episode.length} Episodios</p>`;
+    div.innerHTML=html;
+    return div;
+}
 
+const showCharacterById=(id)=>{
+    const urlId=`${urlBase}${id}`; 
+    fetch(urlId)
+    .then(result=>result.json())
+    .then(character => {
+        const modalContent=document.querySelector('.modal-body');
+      document.querySelector('.modal-title').innerText= character.name;
+        modalContent.appendChild(modalBody(character));
+    });
+}
 
 const loadInfo=(e)=>{
     e.preventDefault();
@@ -80,9 +101,10 @@ const loadInfo=(e)=>{
         modalContent.appendChild(spinner());
         setTimeout(()=>{
             modalContent.removeChild(modalContent.firstChild);
-            const content=document.createElement('div');
+            //const content=document.createElement('div');
             const id=e.target.getAttribute('data-id');
-            content.innerHTML=`<h2>Id ${id}</h2>`;
+            //content.innerHTML=`<h2>Id ${id}</h2>`;
+            const content= showCharacterById(id);
         modalContent.appendChild(content);
         }, 3000);
     }
@@ -101,4 +123,5 @@ const spinner=()=>{
 }
 document.querySelector('#botones').addEventListener('click', navegacion);
 document.querySelector('#characters').addEventListener('click', loadInfo);
+
 loadData(urlBase);
