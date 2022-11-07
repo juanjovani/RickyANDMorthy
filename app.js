@@ -101,11 +101,10 @@ const loadInfo=(e)=>{
         modalContent.appendChild(spinner());
         setTimeout(()=>{
             modalContent.removeChild(modalContent.firstChild);
-            //const content=document.createElement('div');
             const id=e.target.getAttribute('data-id');
             //content.innerHTML=`<h2>Id ${id}</h2>`;
-            const content= showCharacterById(id);
-        modalContent.appendChild(content);
+            showCharacterById(id);
+        
         }, 3000);
     }
 }
